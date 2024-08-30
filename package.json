@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-webp": "^5.0.0"
+  }
+}
