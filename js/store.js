@@ -1,8 +1,36 @@
 let app = document.getElementById('app')
 let cards = document.getElementById('cards')
+let favorites = document.getElementById('favorites')
+let modal = document.getElementById('modal')
+let mainBtn = document.getElementById('main-btn')
+let favoritesBtn = document.getElementById('favorites-btn')
+
 let arrayData = []
 let currentPage = 1
+let arrayFavorites = localStorage.getItem('favorites') ? JSON.parse(localStorage.getItem('favorites')) : []
 
+if (localStorage.getItem('favorites')) {
+  const localCards = JSON.parse(localStorage.getItem('favorites'))
+
+  localStorage.setItem('favorites', JSON.stringify(localCards))
+
+  /* Добавление данных в Избранное */
+  favorites.innerHTML = ''
+  for (const item of localCards) {
+    let divItem = document.createElement('div')
+    let img = document.createElement('img')
+
+    divItem.className = 'main__favorites-item'
+    img.className = 'main__favorites-item-img'
+
+    img.src = item
+
+    divItem.append(img)
+    favorites.append(divItem)
+  }
+}
+
+localStorage.setItem('favorites', JSON.stringify(arrayFavorites))
 
 /* Функция загрузки карточек героев */
 async function fetchHeroes(page, direction) {
@@ -32,6 +60,7 @@ async function fetchHeroes(page, direction) {
       let status = document.createElement('p')
       let titleLocation = document.createElement('h3')
       let textLocation = document.createElement('p')
+      let favoritesBtn = document.createElement('button')
 
       divItem.className = 'main__item'
       img.className = 'main__item-img'
@@ -40,12 +69,14 @@ async function fetchHeroes(page, direction) {
       status.className = 'item-content__status'
       titleLocation.className = 'item-content__subtitle'
       textLocation.className = 'item-content__text'
+      favoritesBtn.className = 'item-content__btn'
 
       img.src = item.image
       h2.textContent = item.name
       status.textContent = item.species
       titleLocation.textContent = 'Last known location:'
       textLocation.textContent = item.location.name
+      favoritesBtn.textContent = 'Добавить в избранное'
 
       divItem.append(img)
       divItem.append(divContent)
@@ -53,6 +84,7 @@ async function fetchHeroes(page, direction) {
       divContent.append(status)
       divContent.append(titleLocation)
       divContent.append(textLocation)
+      divContent.append(favoritesBtn)
 
       switch (direction) {
         case 'up':
@@ -65,6 +97,42 @@ async function fetchHeroes(page, direction) {
           break;
       }
     }
+
+    let btns = document.querySelectorAll('.item-content__btn')
+
+    btns.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault()
+
+        const localCards = JSON.parse(localStorage.getItem('favorites'))
+        const imageSrc = btn.closest('.main__item').querySelector('.main__item-img').src
+
+        let find = localCards.find((item) => item == imageSrc)
+
+        if(!find) {
+          localCards.push(imageSrc)
+
+          localStorage.setItem('favorites', JSON.stringify(localCards))
+          console.log(localCards)
+
+          /* Добавление данных в Избранное */
+          favorites.innerHTML = ''
+          for (const item of localCards) {
+            let divItem = document.createElement('div')
+            let img = document.createElement('img')
+
+            divItem.className = 'main__favorites-item'
+            img.className = 'main__favorites-item-img'
+
+            img.src = item
+
+            divItem.append(img)
+            favorites.append(divItem)
+
+          }
+        }
+      })
+    })
   } catch (err) {
     console.log(err);
     alert(err.message ? err.message : err);
@@ -110,5 +178,18 @@ app.addEventListener("scroll", (event) => {
     }
   }
 });
+
+favoritesBtn.addEventListener('click', (event) => {
+  event.preventDefault()
+
+  modal.style.display = 'block'
+})
+
+mainBtn.addEventListener('click', (event) => {
+  event.preventDefault()
+
+  modal.style.display = 'none'
+})
+
 
 

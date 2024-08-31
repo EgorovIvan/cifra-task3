@@ -30,7 +30,7 @@
   &__cards {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-
+    gap: 1rem;
 
     @media (max-width: 1280px) {
       grid-template-columns: 1fr 1fr;
@@ -42,7 +42,7 @@
   }
 
   &__item {
-    width: auto;
+    width: 100%;
     height: 13.75rem;
     display: flex;
     overflow: hidden;
@@ -70,13 +70,55 @@
       padding: 0.5rem;
     }
   }
+
+  &__favorites {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    @media (max-width: 1280px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 750px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__favorites-item {
+    width: 15rem;
+    height: 15rem;
+    display: flex;
+    overflow: hidden;
+    background: rgb(60, 62, 68);
+    border-radius: 0.5rem;
+    margin: 0.75rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    box-sizing: inherit;
+
+    @media (max-width: 750px) {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
+
+  &___favorites-item-img {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .item-content {
 
   &__name {
+    //width: 16rem;
     color: rgb(245, 245, 245);
     font-size: 1.75rem;
+    //overflow: hidden;
+    //display: -webkit-box;
+    //-webkit-line-clamp: 2; // Определяем количество строк перед достижением многоточия
+    //-webkit-box-orient: vertical;
+    //text-overflow: ellipsis;
+    white-space: nowrap;
 
     @media (max-width: 750px) {
       font-size: 1.375rem;
@@ -118,6 +160,28 @@
     @media (max-width: 750px) {
       font-size: 0.875rem;
     }
+  }
+
+  &__btn {
+    padding: 0.25rem 1rem;
+    font-weight: 400;
+    font-size: 1.25rem;
+    text-align: center;
+    font-family: -apple-system, 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    border-radius: 0.25rem;
+    background: chocolate;
+    border: none;
+    cursor: pointer;
+
+    @media (max-width: 750px) {
+      font-size: 1rem;
+    }
+  }
+
+  &__btn:hover,
+  &__btn:focus-visible {
+    filter: brightness(1.25);
+    transition: filter .2s;
   }
 }
 
